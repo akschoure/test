@@ -2,22 +2,19 @@ package com.app.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.app.dao.EmployeeRepository;
 import com.app.pojos.Employee;
 
-import jakarta.transaction.Transactional;
-
 @Service
-@Transactional
-public class EmployeeServiceImpl implements EmployeeService{
-	
-	@Autowired
-	public EmployeeRepository employeeRepository;
-	
+public class EmployeeServiceImpl implements EmployeeService {
+
+	public final EmployeeRepository employeeRepository;
+
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
+	}
 
 	@Override
 	public List<Employee> getAllEmployee() {
@@ -34,27 +31,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee addEmployee(Employee employee) {
 		return employeeRepository.save(employee);
 	}
-	
 
 
 	@Override
-	public Employee readEmployee(Integer empId) {
-		return employeeRepository.findById(empId).orElseThrow();
-	}
-
-
-	@Override
-	public Integer deleteEmployee(Integer empId) {
-			Employee existingEmpl = readEmployee(empId);
-			employeeRepository.deleteById(existingEmpl.getEmpId());
-		    return existingEmpl.getEmpId();
+	public void deleteEmployee(Integer empId) {
+			employeeRepository.deleteById(empId);
 	}
 
 	@Override
 	public Employee updateEmployee(Employee employee) {
-		
-		//Employee existingEmployee = readEmployee(empId);
-		
 		return employeeRepository.save(employee);
 	}
 

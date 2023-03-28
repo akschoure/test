@@ -15,8 +15,8 @@
 	<description>spring Boot project for company coding task</description>
 	<properties>
 		<java.version>8</java.version>
-		
-		
+
+
 	</properties>
 	
 	<dependencies>
