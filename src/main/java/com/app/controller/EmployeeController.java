@@ -50,18 +50,14 @@ public class EmployeeController {
 	
 	@PutMapping("/{empId}")
 	public ResponseEntity<?> updateEmployee(@RequestBody Employee employee, @PathVariable Integer empId){
-		//try {
-		    employee.setEmpId(empId);
-			Employee existingEmployee = employeeServiceImpl.getEmployeeById(empId);
-			return ResponseEntity.ok(employeeServiceImpl.updateEmployee(employee));
-	//	}
+		employee.setEmpId(empId);
+		employeeServiceImpl.getEmployeeById(empId);
+		return ResponseEntity.ok(employeeServiceImpl.updateEmployee(employee));
 	}
 	
 	@GetMapping
 	public ResponseEntity<?> getEmployee(@RequestParam (required=false) Integer empId , @RequestParam (required=false) String city){
 		return ResponseEntity.ok(employeeServiceImpl.getEmployeeByAnyField(empId, city));
 	}
-	
-	
 
 }
