@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.app.pojos.Employee;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee,String> {
 
 	@Query("SELECT c FROM Employee c WHERE (:empId is null or c.empId = :empId) and (:city is null"
 			  + " or c.city = :city)")
-	List<Employee> findByEmpIdAndCity(Integer empId, String city);
+	List<Employee> findByEmpIdAndCity(String empId, String city);
 
 }

@@ -1,10 +1,10 @@
 package com.app.controller;
 
+import com.app.service.exception.EmployeeAlreadyExistsException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,32 +31,36 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/{empId}")
-	public ResponseEntity<?> getEmployeeById(@PathVariable Integer empId){
+	public ResponseEntity<?> getEmployeeById(@PathVariable String empId){
 		return ResponseEntity.ok(employeeServiceImpl.getEmployeeById(empId));
 	}
 	
 	
 	@PostMapping
 	public ResponseEntity<?> addEmployee(@RequestBody Employee transientEmployee){
-		return new ResponseEntity<>(employeeServiceImpl.addEmployee(transientEmployee),HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(employeeServiceImpl.addEmployee(transientEmployee),HttpStatus.CREATED);
+		} catch (EmployeeAlreadyExistsException exception) {
+			return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	
 	@DeleteMapping("/{empId}")
-	public ResponseEntity<?> deleteEmployee(@PathVariable Integer empId){
+	public ResponseEntity<?> deleteEmployee(@PathVariable String empId){
 		employeeServiceImpl.deleteEmployee(empId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/{empId}")
-	public ResponseEntity<?> updateEmployee(@RequestBody Employee employee, @PathVariable Integer empId){
+	public ResponseEntity<?> updateEmployee(@RequestBody Employee employee, @PathVariable String empId){
 		employee.setEmpId(empId);
 		employeeServiceImpl.getEmployeeById(empId);
 		return ResponseEntity.ok(employeeServiceImpl.updateEmployee(employee));
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getEmployee(@RequestParam (required=false) Integer empId , @RequestParam (required=false) String city){
+	public ResponseEntity<?> getEmployee(@RequestParam (required=false) String empId , @RequestParam (required=false) String city){
 		return ResponseEntity.ok(employeeServiceImpl.getEmployeeByAnyField(empId, city));
 	}
 

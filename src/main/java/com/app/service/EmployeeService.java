@@ -7,15 +7,15 @@ public interface EmployeeService {
 	
 	List<Employee> getAllEmployee();
 	
-	Employee getEmployeeById(Integer empId);
+	Employee getEmployeeById(String empId);
 	
 	Employee addEmployee(Employee employee);
 	
-	void deleteEmployee(Integer empId);
+	void deleteEmployee(String empId);
 	
 	Employee updateEmployee(Employee employee);
 	
-	List<Employee> getEmployeeByAnyField(Integer empId, String city);
+	List<Employee> getEmployeeByAnyField(String empId, String city);
 	
 	
 	

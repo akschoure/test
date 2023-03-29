@@ -1,5 +1,6 @@
 package com.app.service;
 
+import com.app.service.exception.EmployeeAlreadyExistsException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,18 +24,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 
 	@Override
-	public Employee getEmployeeById(Integer empId) {
+	public Employee getEmployeeById(String empId) {
 		return employeeRepository.findById(empId).orElseThrow();
 	}
 
 	@Override
 	public Employee addEmployee(Employee employee) {
+		if (employeeRepository.existsById(employee.getEmpId()))
+			throw new EmployeeAlreadyExistsException("Employee Already Exists");
 		return employeeRepository.save(employee);
 	}
 
 
 	@Override
-	public void deleteEmployee(Integer empId) {
+	public void deleteEmployee(String empId) {
 			employeeRepository.deleteById(empId);
 	}
 
@@ -45,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
 	@Override
-	public List<Employee> getEmployeeByAnyField(Integer empId, String city) {
+	public List<Employee> getEmployeeByAnyField(String empId, String city) {
 		return  employeeRepository.findByEmpIdAndCity(empId, city);
 	}
 

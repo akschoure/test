@@ -15,7 +15,7 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
-	private Integer empId;
+	private String empId;
 	
 	@Column
 	private String firstName;
@@ -33,7 +33,7 @@ public class Employee {
 		super();
 	}
 
-	public Employee(int empId, String firstName, String lastName, String email, String city) {
+	public Employee(String empId, String firstName, String lastName, String email, String city) {
 		super();
 		this.empId = empId;
 		this.firstName = firstName;
@@ -44,12 +44,12 @@ public class Employee {
 	
 
 	
-	public int getEmpId() {
+	public String getEmpId() {
 		return empId;
 	}
 
 	
-	public void setEmpId(int empId) {
+	public void setEmpId(String empId) {
 		this.empId = empId;
 	}
 	
