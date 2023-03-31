@@ -43,12 +43,12 @@ class EmployeeServiceImplTest {
   @Test
   void getEmployeeById() {
     Employee employee = new Employee();
-    when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
+    when(employeeRepository.findById("1")).thenReturn(Optional.of(employee));
 
-    var result = employeeService.getEmployeeById(1);
+    var result = employeeService.getEmployeeById("1");
 
     assertEquals(result, employee);
-    verify(employeeRepository).findById(1);
+    verify(employeeRepository).findById("1");
   }
 
   @Test
@@ -65,9 +65,9 @@ class EmployeeServiceImplTest {
 
   @Test
   void deleteEmployee() {
-    employeeService.deleteEmployee(1);
+    employeeService.deleteEmployee("1");
 
-    verify(employeeRepository).deleteById(1);
+    verify(employeeRepository).deleteById("1");
   }
 
   @Test
@@ -84,9 +84,9 @@ class EmployeeServiceImplTest {
   @Test
   void getEmployeeByAnyField() {
     Employee employee = new Employee();
-    when(employeeRepository.findByEmpIdAndCity(1, "NGP")).thenReturn(asList(employee));
+    when(employeeRepository.findByEmpIdAndCity("1", "NGP")).thenReturn(asList(employee));
 
-    List<Employee> result = employeeService.getEmployeeByAnyField(1, "NGP");
+    List<Employee> result = employeeService.getEmployeeByAnyField("1", "NGP");
 
     assertEquals(asList(employee), result);
   }
