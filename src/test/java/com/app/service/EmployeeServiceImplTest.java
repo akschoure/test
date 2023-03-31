@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.app.dao.EmployeeRepository;
 import com.app.pojos.Employee;
+import com.app.service.exception.EmployeeAlreadyExistsException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -73,12 +74,23 @@ class EmployeeServiceImplTest {
   @Test
   void updateEmployee() {
     Employee employee = new Employee();
+    employee.setEmpId("1");
+    when(employeeRepository.existsById(employee.getEmpId())).thenReturn(true);
     when(employeeRepository.save(employee)).thenReturn(employee);
 
     var result = employeeService.updateEmployee(employee);
 
     assertEquals(result, employee);
     verify(employeeRepository).save(employee);
+  }
+
+  @Test
+  void updateEmployee_ThrowsException() {
+    Employee employee = new Employee();
+    employee.setEmpId("1");
+    when(employeeRepository.existsById(employee.getEmpId())).thenReturn(false);
+
+    assertThrows(EmployeeAlreadyExistsException.class, () -> employeeService.updateEmployee(employee));
   }
 
   @Test

@@ -43,7 +43,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployee(Employee employee) {
-		return employeeRepository.save(employee);
+		if (employeeRepository.existsById(employee.getEmpId()))
+			return employeeRepository.save(employee);
+		throw new EmployeeAlreadyExistsException("Employee Already Exists");
 	}
 
 
